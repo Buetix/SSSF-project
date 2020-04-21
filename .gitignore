@@ -11,6 +11,7 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 node-modules
 *.xml
+*.idea
 
 # Runtime data
 pids
