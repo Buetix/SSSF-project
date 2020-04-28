@@ -4,9 +4,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const review = new Schema ({
-    movieTitle: String,
-    moviePoster: String,
-    comment: String
+    MovieTitle: String,
+    MoviePoster: String,
+    Comment: String
 });
 
 module.exports = mongoose.model('Review', review);

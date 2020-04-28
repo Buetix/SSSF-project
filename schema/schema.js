@@ -5,15 +5,16 @@ const {GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList, GraphQLSchema, 
 
 const review = require('../models/review');
 const topList = require('../models/topList');
+const user = require('../models/userModel');
 
 const reviewType = new GraphQLObjectType({
    name: 'review',
    description: 'A single review of a movie',
    fields: () => ({
        id: {type: GraphQLID},
-       movieTitle: {type: GraphQLString},
-       moviePoster: {type: GraphQLString},
-       comment: {type: GraphQLString}
+       MovieTitle: {type: GraphQLString},
+       MoviePoster: {type: GraphQLString},
+       Comment: {type: GraphQLString}
    })
 });
 
@@ -22,8 +23,8 @@ const topListType = new GraphQLObjectType({
    description: 'A list containing 10 reviews',
    fields: () => ({
        id: {type: GraphQLID},
-       listName: {type: GraphQLString},
-       review: {
+       ListName: {type: GraphQLString},
+       Review: {
            type: reviewType,
            resolve: async (parent, args) => {
                try {
@@ -32,7 +33,9 @@ const topListType = new GraphQLObjectType({
                    return new Error(e.message);
                }
            }
-       }
+       },
+       Comment: {type: GraphQLString},
+       Author: {type: GraphQLString}
    })
 });
 
@@ -71,6 +74,43 @@ const RootQuery = new GraphQLObjectType({
    }
 });
 
+const Mutation = new GraphQLObjectType({
+   name: 'MutationType',
+   description: 'Mutations',
+   fields: {
+       addTopList: {
+           type: topListType,
+           description: 'Add new topList',
+           args: {
+               Review: {
+                   type: new GraphQLNonNull(
+                       new GraphQLList(reviewType)
+                   )
+               },
+               Comment: {type: GraphQLString},
+               Author: {type: new GraphQLNonNull(GraphQLString)}
+           },
+           resolve: async (parent, args, {req, res, checkAuth}) => {
+               try {
+                   checkAuth(req, res);
+                   let reviews = [];
+                   await args.Review.map(rev => {
+                       const newReview = new review(rev);
+                       newReview.save();
+                       reviews.push(newReview);
+                   });
+                   args.Review = reviews;
+                   const newTopList = new topList(args);
+                   return await newTopList.save();
+               } catch (e) {
+                   return new Error(e.message);
+               }
+           }
+       }
+   } 
+});
+
 module.exports = new GraphQLSchema({
-   query: RootQuery 
+   query: RootQuery,
+   mutation: Mutation
 });

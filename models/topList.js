@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const topList = new Schema ({
-    listName: String,
-    review: [{type: mongoose.Types.ObjectId, ref: 'Review'}],
-    comment: String,
-    author: String
+    ListName: String,
+    Review: [{type: mongoose.Types.ObjectId, ref: 'Review'}],
+    Comment: String,
+    Author: String
 });
 
 module.exports = mongoose.model('TopList', topList);
