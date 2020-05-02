@@ -7,6 +7,16 @@ const review = require('../models/review');
 const topList = require('../models/topList');
 const user = require('../models/userModel');
 
+const userType = new GraphQLObjectType( {
+   name: 'user',
+   description: 'A user',
+   fields: () => ({
+       username: {type: GraphQLString},
+       email: {type: GraphQLString},
+       password: {type: GraphQLString}
+   })
+});
+
 const reviewType = new GraphQLObjectType({
    name: 'review',
    description: 'A single review of a movie',
@@ -24,18 +34,18 @@ const topListType = new GraphQLObjectType({
    fields: () => ({
        id: {type: GraphQLID},
        ListName: {type: GraphQLString},
-       Review: {
-           type: reviewType,
+       Reviews: {
+           type: new GraphQLList(reviewType),
            resolve: async (parent, args) => {
                try {
-                   return await review.findById(parent.review);
+                   return await review.find({_id: parent.Reviews});
                } catch (e) {
                    return new Error(e.message);
                }
            }
        },
        Comment: {type: GraphQLString},
-       Author: {type: GraphQLString}
+       Author: {type: userType.username}
    })
 });
 
@@ -57,7 +67,7 @@ const RootQuery = new GraphQLObjectType({
            type: new GraphQLList(topListType),
            description: 'Get a specific list',
            args: {
-               listName: {type: GraphQLString}
+               ListName: {type: GraphQLString}
            },
            resolve: async (parent, args) => {
                try {
@@ -82,6 +92,7 @@ const Mutation = new GraphQLObjectType({
            type: topListType,
            description: 'Add new topList',
            args: {
+               ListName: {type: GraphQLString},
                Review: {
                    type: new GraphQLNonNull(
                        new GraphQLList(reviewType)
@@ -106,8 +117,40 @@ const Mutation = new GraphQLObjectType({
                    return new Error(e.message);
                }
            }
+       },
+       deleteTopList: {
+           type: topListType,
+           description: 'Delete existing list',
+           args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+           resolve: async (parent, args, {req, res, checkAuth}) => {
+               try {
+                   checkAuth(req, res);
+                   return await topList.findByIdAndDelete(args.id, args, {new:true});
+               } catch (e) {
+                   return new Error(e.message);
+               }
+           }
+       },
+       createReview: {
+           type: reviewType,
+           description: 'Create a single review',
+           args: {
+               id: {type: new GraphQLNonNull(GraphQLID)},
+               MovieTitle: {type: new GraphQLNonNull(GraphQLString)},
+               MoviePoster: {type: new GraphQLNonNull(GraphQLString)},
+               Comment: {type: new GraphQLNonNull(GraphQLString)}
+           },
+           resolve: async (parent, args, {req, res, checkAuth}) => {
+               try {
+                   checkAuth(req, res);
+                   const newReview = new review(args);
+                   return await newReview.save();
+               } catch (e) {
+                   return new Error(e.message);
+               }
+           }
        }
-   } 
+   }
 });
 
 module.exports = new GraphQLSchema({

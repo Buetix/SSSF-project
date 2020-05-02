@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const topList = new Schema ({
     ListName: String,
-    Review: [{type: mongoose.Types.ObjectId, ref: 'Review'}],
+    Reviews: [{type: mongoose.Types.ObjectId, ref: 'Reviews'}],
     Comment: String,
     Author: String
 });
