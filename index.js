@@ -12,10 +12,10 @@ const app = express();
 const cors = require('cors');
 
 
-app.use(cors);
+app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-app.use(helmet);
+app.use(helmet());
 
 const checkAuth = (req, res) => {
    passport.authenticate("jwt", {session: false}, (err, user) => {
@@ -47,3 +47,4 @@ db.on('connected', () => {
 });
 
 app.use('/auth', require('./routes/authRoute'));
+app.use('/user', require('./routes/userRoute'));

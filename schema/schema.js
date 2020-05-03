@@ -1,5 +1,6 @@
 ﻿'use strict';
 
+
 const {GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList, GraphQLSchema, GraphQLNonNull} = require(
     'graphql');
 
@@ -24,7 +25,8 @@ const reviewType = new GraphQLObjectType({
        id: {type: GraphQLID},
        MovieTitle: {type: GraphQLString},
        MoviePoster: {type: GraphQLString},
-       Comment: {type: GraphQLString}
+       Comment: {type: GraphQLString},
+       Author: {type: GraphQLString}
    })
 });
 
@@ -45,7 +47,7 @@ const topListType = new GraphQLObjectType({
            }
        },
        Comment: {type: GraphQLString},
-       Author: {type: userType.username}
+       Author: {type: GraphQLString}
    })
 });
 
@@ -64,7 +66,7 @@ const RootQuery = new GraphQLObjectType({
            }
        },
        topList: {
-           type: new GraphQLList(topListType),
+           type: topListType,
            description: 'Get a specific list',
            args: {
                ListName: {type: GraphQLString}
@@ -80,6 +82,17 @@ const RootQuery = new GraphQLObjectType({
        topListTag: {
            type: new GraphQLList(topListType),
            
+       },
+       reviews: {
+           type: new GraphQLList(reviewType),
+           description: 'Get all reviews',
+           resolve: async (parent, args) => {
+               try {
+                   return await review.find();
+               } catch (e) {
+                   return new Error(e.message);
+               }
+           }
        }
    }
 });
@@ -93,9 +106,9 @@ const Mutation = new GraphQLObjectType({
            description: 'Add new topList',
            args: {
                ListName: {type: GraphQLString},
-               Review: {
+               Reviews: {
                    type: new GraphQLNonNull(
-                       new GraphQLList(reviewType)
+                       new GraphQLList(GraphQLID)
                    )
                },
                Comment: {type: GraphQLString},
@@ -135,10 +148,10 @@ const Mutation = new GraphQLObjectType({
            type: reviewType,
            description: 'Create a single review',
            args: {
-               id: {type: new GraphQLNonNull(GraphQLID)},
                MovieTitle: {type: new GraphQLNonNull(GraphQLString)},
                MoviePoster: {type: new GraphQLNonNull(GraphQLString)},
-               Comment: {type: new GraphQLNonNull(GraphQLString)}
+               Comment: {type: new GraphQLNonNull(GraphQLString)},
+               Author: {type: new GraphQLNonNull(GraphQLString)}
            },
            resolve: async (parent, args, {req, res, checkAuth}) => {
                try {
