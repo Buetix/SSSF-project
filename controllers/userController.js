@@ -7,7 +7,6 @@ const saltRound = 12;
 
 const user_get = async (req, res) => {
     try {
-        console.log('Waiting for user')
         const user = await userModel.findById(req.params.id);
         res.json(user);
     } catch (e) {
@@ -16,10 +15,10 @@ const user_get = async (req, res) => {
     }
 };
 
-const getUserLogin = async (username) => {
-    const user = await userModel.findOne({email: username});
+const getUserLogin = async (email) => {
+    const user = await userModel.findOne({email: email});
     console.log(user);
-    if (user.email === username) {
+    if (user.email === email) {
         return user;
     } else {
         console.log('Not logged in');
@@ -28,7 +27,7 @@ const getUserLogin = async (username) => {
 
 const create_user = async (req, res) => {
     const hash = await bcrypt.hash(req.body.password, saltRound);
-    const myUser = await userModel.create({ username: req.body.username, password: hash });
+    const myUser = await userModel.create({ email: req.body.email, username: req.body.username, password: hash });
     res.json(myUser.id);
 };
 

@@ -47,7 +47,8 @@ const topListType = new GraphQLObjectType({
            }
        },
        Comment: {type: GraphQLString},
-       Author: {type: GraphQLString}
+       Author: {type: GraphQLString},
+       Tags: {type: new GraphQLList(GraphQLString)}
    })
 });
 
@@ -112,7 +113,8 @@ const Mutation = new GraphQLObjectType({
                    )
                },
                Comment: {type: GraphQLString},
-               Author: {type: new GraphQLNonNull(GraphQLString)}
+               Author: {type: new GraphQLNonNull(GraphQLString)},
+               Tags: {type: new GraphQLList(GraphQLString)}
            },
            resolve: async (parent, args, {req, res, checkAuth}) => {
                try {
@@ -134,11 +136,11 @@ const Mutation = new GraphQLObjectType({
        deleteTopList: {
            type: topListType,
            description: 'Delete existing list',
-           args: {id: {type: new GraphQLNonNull(GraphQLID)}},
+           args: {ListName: {type: new GraphQLNonNull(GraphQLID)}},
            resolve: async (parent, args, {req, res, checkAuth}) => {
                try {
                    checkAuth(req, res);
-                   return await topList.findByIdAndDelete(args.id, args, {new:true});
+                   return await topList.findByIdAndDelete(args.ListName, args, {new:true});
                } catch (e) {
                    return new Error(e.message);
                }

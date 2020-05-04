@@ -10,6 +10,7 @@ const schema = require('./schema/schema');
 const passport = require('./utils/pass');
 const app = express();
 const cors = require('cors');
+const fs = require('fs');
 
 
 app.use(cors());
