@@ -10,7 +10,6 @@ const schema = require('./schema/schema');
 const passport = require('./utils/pass');
 const app = express();
 const cors = require('cors');
-const fs = require('fs');
 
 
 app.use(cors());
@@ -25,6 +24,10 @@ const checkAuth = (req, res) => {
       }
    })
 };
+
+app.get('/ping', function (req, res) {
+   return res.send('pong');
+});
 
 app.use('/graphql', (req, res) => {
    expressGraphQL({

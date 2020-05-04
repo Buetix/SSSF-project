@@ -8,7 +8,8 @@ const topList = new Schema ({
     Reviews: [{type: mongoose.Types.ObjectId, ref: 'Reviews'}],
     Comment: String,
     Author: String,
-    Tags: [String]
+    Tags: [String],
+    Discussion: [{type: mongoose.Types.ObjectId, ref: 'Discussion'}]
 });
 
 module.exports = mongoose.model('TopList', topList);

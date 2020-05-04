@@ -7,6 +7,7 @@ const {GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList, GraphQLSchema, 
 const review = require('../models/review');
 const topList = require('../models/topList');
 const user = require('../models/userModel');
+const messages = require('../models/discussionMessages');
 
 const userType = new GraphQLObjectType( {
    name: 'user',
@@ -30,6 +31,17 @@ const reviewType = new GraphQLObjectType({
    })
 });
 
+const messagesType = new GraphQLObjectType({
+   name: 'discussion',
+   description: 'Conversation under a topList',
+   fields: () => ({
+       id: {type: GraphQLID},
+       ParentID: {type: GraphQLID},
+       Message: {type: GraphQLString},
+       Author: {type: GraphQLString}
+   })
+});
+
 const topListType = new GraphQLObjectType({
    name: 'topList',
    description: 'A list containing 10 reviews',
@@ -48,7 +60,8 @@ const topListType = new GraphQLObjectType({
        },
        Comment: {type: GraphQLString},
        Author: {type: GraphQLString},
-       Tags: {type: new GraphQLList(GraphQLString)}
+       Tags: {type: new GraphQLList(GraphQLString)},
+       Discussion: {type: new GraphQLList(messagesType)}
    })
 });
 
@@ -114,18 +127,13 @@ const Mutation = new GraphQLObjectType({
                },
                Comment: {type: GraphQLString},
                Author: {type: new GraphQLNonNull(GraphQLString)},
-               Tags: {type: new GraphQLList(GraphQLString)}
+               Tags: {type: new GraphQLList(GraphQLString)},
+               Discussion: {type: new GraphQLList(GraphQLString)}
            },
            resolve: async (parent, args, {req, res, checkAuth}) => {
                try {
                    checkAuth(req, res);
-                   let reviews = [];
-                   await args.Review.map(rev => {
-                       const newReview = new review(rev);
-                       newReview.save();
-                       reviews.push(newReview);
-                   });
-                   args.Review = reviews;
+                   args.Discussion = [];
                    const newTopList = new topList(args);
                    return await newTopList.save();
                } catch (e) {
@@ -160,6 +168,34 @@ const Mutation = new GraphQLObjectType({
                    checkAuth(req, res);
                    const newReview = new review(args);
                    return await newReview.save();
+               } catch (e) {
+                   return new Error(e.message);
+               }
+           }
+       },
+       leaveComment: {
+           type: messagesType,
+           description: 'leave a comment on a topList',
+           args: {
+               ParentID: {type: new GraphQLNonNull(GraphQLID)},
+               Message: {type: new GraphQLNonNull(GraphQLString)},
+               Author: {type: new GraphQLNonNull(GraphQLString)}
+           },
+           resolve: async (parent, args, {req, res, checkAuth}) => {
+               try {
+                   checkAuth(req, res);
+                   const newComment = new messages(args);
+                   await newComment.save();
+
+                   return await topList.findByIdAndUpdate(
+                       {_id: args.ParentID},
+                       {$addToSet: {"Discussion": newComment}},
+                       {new: true},
+                       (error, doc) => {
+                           console.log(error);
+                           return new Error(error);
+                       }
+                   );
                } catch (e) {
                    return new Error(e.message);
                }
