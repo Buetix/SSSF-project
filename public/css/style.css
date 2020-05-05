@@ -10,11 +10,40 @@
     
 }
 
+.grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 10px;
+}
+
+.grid-item {
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    font-size: 30px;
+    text-align: center;
+}
+
 .profileRedirect {
+    display: inline-block;
+    align-content: end;
     width: 50px;
 }
 
 .profilePic {
     max-height: 35px;
     max-width: 55px;
+}
+
+
+.login {
+    padding-top: 200px;
+    display: block;
+    text-align: center;
+}
+
+.loginForm {
+    display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
 }

@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
-<div>
 <header class="header">
     <h1>MyTop10Movies</h1>
     <button class="redirect">Home</button>
@@ -16,20 +15,12 @@
         <img src="images/bruh.jpg" class="profilePic" alt="Placeholder">
     </div>
 </header>
-<div class="login">
-    <form class="loginForm">
-        <label for="username">Username</label><br>
-        <input type="text" id="username" name="username"><br>
-        <label for="password">Password</label><br>
-        <input type="password" id="password" name="password"><br>
-        <button type="submit">Login</button>
-        <form>
-            <input type="button" value="Put Your Text Here" 
-                   onclick="window.location.href='mainMenu.html'" />
-        </form>
-    </form>
+<div class="grid-container">
+    <div class="grid-item"></div>
+    <button id="refresh">Refresh</button>
 </div>
-</div>
+
 <script src="fetchGQL.js"></script>
+<script src="main.js"></script>
 </body>
 </html>

@@ -93,16 +93,41 @@ const RootQuery = new GraphQLObjectType({
                }
            }
        },
-       topListTag: {
-           type: new GraphQLList(topListType),
-           
-       },
+       // topListTag: {
+       //     type: new GraphQLList(topListType),
+       //     description: 'Get top list by tag',
+       //     args: {
+       //         Tags: [{type:GraphQLString}]
+       //     },
+       //     resolve: async (parent, args) => {
+       //         try {
+       //             return await topList.find(args.Tags);
+       //         } catch (e) {
+       //             return new Error(e.message);
+       //         }
+       //     }
+       //    
+       // },
        reviews: {
            type: new GraphQLList(reviewType),
            description: 'Get all reviews',
            resolve: async (parent, args) => {
                try {
                    return await review.find();
+               } catch (e) {
+                   return new Error(e.message);
+               }
+           }
+       },
+       comments: {
+           type: new GraphQLList(messagesType),
+           description: 'get all messages on a single list',
+           args: {
+               ParentID: {type: GraphQLID}
+           },
+           resolve: async (parent, args) => {
+               try {
+                   return await messages.findById(args.ParentID);
                } catch (e) {
                    return new Error(e.message);
                }
@@ -144,7 +169,7 @@ const Mutation = new GraphQLObjectType({
        deleteTopList: {
            type: topListType,
            description: 'Delete existing list',
-           args: {ListName: {type: new GraphQLNonNull(GraphQLID)}},
+           args: {ListName: {type: new GraphQLNonNull(GraphQLString)}},
            resolve: async (parent, args, {req, res, checkAuth}) => {
                try {
                    checkAuth(req, res);
