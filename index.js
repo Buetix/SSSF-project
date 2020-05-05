@@ -50,5 +50,6 @@ db.on('connected', () => {
    }
 });
 
+app.use(express.static(__dirname + '/public'));
 app.use('/auth', require('./routes/authRoute'));
 app.use('/user', require('./routes/userRoute'));

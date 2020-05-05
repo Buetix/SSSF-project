@@ -1,10 +1,20 @@
 ﻿.header {
-    padding: 60px;
+    padding: 5px;
     text-align: center;
-    background: #1abc9c;
+    background: #63bc77;
     color: white;
-    font-size: 30px;
+    font-size: 25px;
 }
 .redirect {
+    padding:5px;
     
+}
+
+.profileRedirect {
+    width: 50px;
+}
+
+.profilePic {
+    max-height: 35px;
+    max-width: 55px;
 }
