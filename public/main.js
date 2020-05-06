@@ -2,19 +2,18 @@
 
 window.addEventListener('load', async () => {
    const div = document.querySelector('.grid-container');
-   const rfrsh = document.querySelector('#refresh');
     
    const getRevs = async (name, ids) => {
-       const bruh = [];
+       const dataArray = [];
        const data = [];
        try {
            
            ids.forEach(item => {
-               bruh.push(item.id);
-               console.log(bruh);
+               dataArray.push(item.id);
+               console.log(dataArray);
            });
-           const revName = await getReviews(bruh);
-           const h3 = document.querySelector('#' + name);
+           const revName = await getReviews(dataArray);
+           const h3 = document.querySelector('#' + name.replace(/ /g, ''));
            for (const list of revName) {
                data.push(list);
            }
@@ -22,7 +21,7 @@ window.addEventListener('load', async () => {
                h3.innerHTML += `<h3 class="review">${item.MovieTitle}</h3>`
            })
        } catch (e) {
-           console.log(e)
+           console.log(e);
        }
    };
    const init = async () => {
@@ -38,12 +37,10 @@ window.addEventListener('load', async () => {
        
        div.innerHTML = '';
        data.forEach(item => {
-           div.innerHTML += `<div class="grid-item" id="${item.ListName}">${item.ListName}<br>
+           div.innerHTML += `<div class="grid-item" id="${item.ListName.replace(/ /g, '')}">${item.ListName}<br>
                             </div>`;
-           getRevs(item.ListName, item.Reviews);
+           getRevs(item.ListName.replace(/ /g, ''), item.Reviews);
        });
    };
    init();
-
-    rfrsh.addEventListener('click', init);
 });
