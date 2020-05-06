@@ -1,4 +1,6 @@
-﻿const fetchGraphql = async (query) => {
+﻿'use strict';
+
+const fetchGraphql = async (query) => {
     const options = {
         method: 'POST',
         headers: {
@@ -8,7 +10,7 @@
         body: JSON.stringify(query)
     };
     try {
-        const response = await fetch('https://localhost:8000/graphql', options)
+        const response = await fetch('https://localhost:8000/graphql', options);
         const json = await response.json();
         console.log(json);
         return json.data;
@@ -60,7 +62,6 @@ const getAllLists = async () => {
         }`
     };
     const data = await fetchGraphql(getListsQuery);
-    console.log(data);
     return data.topLists;
 };
 
@@ -77,6 +78,22 @@ const getComments = async () => {
   };
   const data = await fetchGraphql(getCommentsQuery);
   return data.comments;
+};
+
+const getReviews = async (item) => {
+  const getReviewsQuery = {
+      query: `{
+      reviewOnList (id: ["${item.join('\",\"')}"]) {
+      id
+      MovieTitle
+      MoviePoster
+      Comment
+      Author
+        }
+      }`
+  };
+  const data = await fetchGraphql(getReviewsQuery);
+  return data.reviewOnList;
 };
 
 const createReview = async () => {

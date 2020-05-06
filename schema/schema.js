@@ -93,21 +93,6 @@ const RootQuery = new GraphQLObjectType({
                }
            }
        },
-       // topListTag: {
-       //     type: new GraphQLList(topListType),
-       //     description: 'Get top list by tag',
-       //     args: {
-       //         Tags: [{type:GraphQLString}]
-       //     },
-       //     resolve: async (parent, args) => {
-       //         try {
-       //             return await topList.find(args.Tags);
-       //         } catch (e) {
-       //             return new Error(e.message);
-       //         }
-       //     }
-       //    
-       // },
        reviews: {
            type: new GraphQLList(reviewType),
            description: 'Get all reviews',
@@ -118,6 +103,20 @@ const RootQuery = new GraphQLObjectType({
                    return new Error(e.message);
                }
            }
+       },
+       reviewOnList: {
+         type: new GraphQLList(reviewType),
+         description: 'Get reviews on a list',
+           args: {
+             id: {type: new GraphQLNonNull(GraphQLList(GraphQLID))}
+           },
+         resolve: async (parent, args) => {
+             try {
+                 return await review.find({_id: args.id});
+             } catch (e) {
+                 return new Error(e.message);
+             }
+         }  
        },
        comments: {
            type: new GraphQLList(messagesType),
