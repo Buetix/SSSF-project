@@ -39,10 +39,16 @@ function validateForm() {
         function getSelected() {
             const selected = document.getElementById("selector");
             const items = [];
+            let numSelected = 0;
             for (let i = 0; i < selected.length; i++) {
                 let currentOption = selected[i];
                 if(currentOption.selected === true) {
                     items.push('"' + currentOption.value + '"');
+                    numSelected = numSelected + 1;
+                    if(numSelected > 5) {
+                        alert('Too many movies selected');
+                        return false;
+                    }
                 }
             }
             return items;
@@ -51,7 +57,6 @@ function validateForm() {
         request.Reviews = getSelected().toString();
         request.Comment = document.forms["listForm"]["Comment"].value;
         request.Author = document.forms["listForm"]["Author"].value;
-        console.log(request.Reviews);
         const success = await createTopList(request);
         if (success != null) {
             alert('Created new list successfully')

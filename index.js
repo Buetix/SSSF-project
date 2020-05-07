@@ -25,10 +25,6 @@ const checkAuth = (req, res) => {
    })
 };
 
-app.get('/ping', function (req, res) {
-   return res.send('pong');
-});
-
 app.use('/graphql', (req, res) => {
    expressGraphQL({
       schema: schema,

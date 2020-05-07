@@ -17,7 +17,11 @@ window.addEventListener('load', async () => {
                data.push(list);
            }
            data.forEach(item => {
-               h3.innerHTML += `<h3 class="review">${item.MovieTitle}</h3>`
+               h3.innerHTML += `<div class="review">
+                                    <h3>${item.MovieTitle}</h3>
+                                    <p>Review: ${item.MoviePoster}/10</p>
+                                    <p>Comment: ${item.Comment}</p>
+                                    <p class="profilePic">By: ${item.Author}</p></div>`
            })
        } catch (e) {
            console.log(e);
@@ -37,6 +41,7 @@ window.addEventListener('load', async () => {
        div.innerHTML = '';
        data.forEach(item => {
            div.innerHTML += `<div class="grid-item" id="${item.ListName.replace(/ /g, '')}">${item.ListName}<br>
+                             <p class="profilePic">By: ${item.Author}</p>
                             </div>`;
            getRevs(item.ListName.replace(/ /g, ''), item.Reviews);
        });

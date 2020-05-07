@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Top10Movies</title>
+    <title>Top5Movies</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 <body>
 <header class="header">
-    <h1>MyTop10Movies</h1>
+    <h1>MyTop5Movies</h1>
     <button class="redirect" onclick="window.location.href='mainMenu.html'">Home</button>
     <button class="redirect">Create A List</button>
     <button class="redirect" onclick="window.location.href='createReview.html'">Create A Review</button>
@@ -15,17 +15,17 @@
 <div class="createList">
     <form class="listForm" name="listForm">
         <label for="listName">Give your list a name</label>
-        <input type="text" id="listName" name="listName" placeholder="List name"><br>
-        <label for="selector">Choose existing reviews for your list. Hold Ctrl and click to select multiple</label>
-        <select id="selector" name="Reviews" multiple size="3" class="reviewSelect">
+        <input type="text" id="listName" name="listName" placeholder="List name" required><br>
+        <label for="selector">Choose existing reviews for your list. 
+            Hold Ctrl and click to select multiple. Max 5.</label>
+        <select id="selector" name="Reviews" multiple size="5" class="reviewSelect" required>
         </select><br>
         <label for="Comment">Leave a comment for the list</label>
         <input type="text" id="Comment" name="Comment" placeholder="Comment"><br>
         <label for="Author">Sign your list</label>
-        <input type="text" id="Author" name="Author" placeholder="Your name"><br>
-        <label for="Tags">Add some tags</label>
-        <input type="text" id="Tags" name="Tags" placeholder='Format: "ex1", "ex2"'><br>
+        <input type="text" id="Author" name="Author" placeholder="Your name" required><br>
         <input type="button" id="createList" name="createList" value="Create List" onclick="return validateForm()">
+        <input type="reset" id="resetForm" name="reset" value="Reset Form">
     </form>
 </div>
 <div>
