@@ -49,9 +49,13 @@ Mostly for main menu page
 }
 
 .reviewSelect {
-    
+    height: 150px;
 }
 
+.option {
+    width: fit-content;
+    padding: 5px;
+}
 
 .login {
     padding-top: 200px;

@@ -10,7 +10,6 @@ window.addEventListener('load', async () => {
            
            ids.forEach(item => {
                dataArray.push(item.id);
-               console.log(dataArray);
            });
            const revName = await getReviews(dataArray);
            const h3 = document.querySelector('#' + name.replace(/ /g, ''));

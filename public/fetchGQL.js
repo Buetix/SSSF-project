@@ -20,22 +20,23 @@ const fetchGraphql = async (query) => {
     }
 };
 
-const createTopList = async (topList) => {
+const createTopList = async (request) => {
   const createListQuery = {
       query: `
       mutation {
-      addTopList(ListName: $ListName, Reviews: [$review1, $review2, $review3, $review4, $review5], 
-      Comment: $Comment, Author: $Author, Tags: [$tag1, $tag2], Discussion: []) {
+      addTopList(ListName: "${request.ListName}", Reviews: [${request.Reviews}], 
+      Comment: "${request.Comment}", Author: "${request.Author}", Tags: [], Discussion: []) {
       id
       ListName
-      Reviews
+      Reviews {
+      id
+      }
       Comment
       Author
       Tags
-      Discussion
+      Discussion{id}
       }
-  }`,
-      variables: topList,
+  }`
   };
   const data = await fetchGraphql(createListQuery);
   return data.addTopList;
@@ -80,6 +81,22 @@ const getComments = async () => {
   return data.comments;
 };
 
+const getAllReviews = async () => {
+    const allReviewsQuery = {
+        query: `{
+        reviews {
+        id
+        MovieTitle
+        MoviePoster
+        Comment
+        Author
+        }
+      }`
+    };
+    const data = await fetchGraphql(allReviewsQuery);
+    return data.reviews;
+};
+
 const getReviews = async (item) => {
   const getReviewsQuery = {
       query: `{
@@ -96,11 +113,15 @@ const getReviews = async (item) => {
   return data.reviewOnList;
 };
 
-const createReview = async () => {
+const createReview = async (request) => {
+    console.log(request.MovieTitle);
   const createReviewQuery = {
       query:`
       mutation {
-          createReview(MovieTitle: $MovieTitle, MoviePoster: $MoviePoster, Comment: $Comment, Author: $Author) {
+          createReview(MovieTitle: "${request.MovieTitle}", 
+          MoviePoster: "${request.MoviePoster}", 
+          Comment: "${request.Comment}", 
+          Author: "${request.Author}") {
               id
             MovieTitle
             MoviePoster

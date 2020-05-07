@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Top10Movies</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+<header class="header">
+    <h1>MyTop10Movies</h1>
+    <button class="redirect" onclick="window.location.href='mainMenu.html'">Home</button>
+    <button class="redirect" onclick="window.location.href='createList.html'">Create A List</button>
+    <button class="redirect">Create A Review</button>
+</header>
+<div class="createReview">
+    <form class="reviewForm" name="reviewForm">
+        <label for="MovieTitle">Title of the movie</label>
+        <input type="text" id="MovieTitle" name="MovieTitle" placeholder="Movie Name" required><br>
+        <label for="MoviePoster">Numeral review</label>
+        <input type="number" id="MoviePoster" name="MoviePoster" placeholder="1-10" required min="1" max="10"><br>
+        <label for="Comment">Comment for the review (Max length: 25 char)</label>
+        <input type="text" id="Comment" name="Comment" placeholder="Eg: 'Nice one'" maxlength="25"><br>
+        <label for="Author">Sing the review</label>
+        <input type="text" id="Author" name="Author" maxlength="15" placeholder="Your name" required>
+        <input type="button" id="createReview" value="Create" onclick="return validateForm()">
+        <input type="reset" id="resetForm" name="reset" value="Reset Form">
+    </form>
+    
+</div>
+<script src="createReview.js"></script>
+<script src="fetchGQL.js"></script>
+</body>
+</html>

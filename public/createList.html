@@ -8,24 +8,30 @@
 <body>
 <header class="header">
     <h1>MyTop10Movies</h1>
-    <button class="redirect">Home</button>
-    <button class="redirect">Categories</button>
-    <button class="redirect">Random</button>
-    <div class="profileRedirect">
-        <img src="images/bruh.jpg" class="profilePic" alt="Placeholder">
-    </div>
+    <button class="redirect" onclick="window.location.href='mainMenu.html'">Home</button>
+    <button class="redirect">Create A List</button>
+    <button class="redirect" onclick="window.location.href='createReview.html'">Create A Review</button>
 </header>
 <div class="createList">
-    <form class="listForm">
+    <form class="listForm" name="listForm">
         <label for="listName">Give your list a name</label>
-        <input type="text" id="listName" placeholder="List name"><br>
-        <label>Choose existing reviews for your list. Hold Ctrl and click to select multiple</label>
-        <select name="Reviews" multiple size="3" class="reviewSelect">
-            
-        </select>
-        
+        <input type="text" id="listName" name="listName" placeholder="List name"><br>
+        <label for="selector">Choose existing reviews for your list. Hold Ctrl and click to select multiple</label>
+        <select id="selector" name="Reviews" multiple size="3" class="reviewSelect">
+        </select><br>
+        <label for="Comment">Leave a comment for the list</label>
+        <input type="text" id="Comment" name="Comment" placeholder="Comment"><br>
+        <label for="Author">Sign your list</label>
+        <input type="text" id="Author" name="Author" placeholder="Your name"><br>
+        <label for="Tags">Add some tags</label>
+        <input type="text" id="Tags" name="Tags" placeholder='Format: "ex1", "ex2"'><br>
+        <input type="button" id="createList" name="createList" value="Create List" onclick="return validateForm()">
     </form>
 </div>
-
+<div>
+    <button onclick="window.location.href='createReview.html'">Create new review for a list</button>
+</div>
+<script src="createList.js"></script>
+<script src="fetchGQL.js"></script>
 </body>
 </html>
