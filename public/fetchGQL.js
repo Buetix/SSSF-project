@@ -10,7 +10,7 @@ const fetchGraphql = async (query) => {
         body: JSON.stringify(query)
     };
     try {
-        const response = await fetch('https://localhost:8000/graphql', options);
+        const response = await fetch(process.env.GRAPHQL, options);
         const json = await response.json();
         console.log(json);
         return json.data;
