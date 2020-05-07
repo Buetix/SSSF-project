@@ -1,5 +1,6 @@
 ﻿'use strict';
 
+require('dotenv').config();
 const fetchGraphql = async (query) => {
     const options = {
         method: 'POST',
