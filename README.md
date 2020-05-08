@@ -8,6 +8,7 @@ Project of the SSSF-course
 - Fetching created single reviews
 - Creating new lists
 - Creating new reviews
+- Alerts on too many movies selected for a list and invalid naming for a review
 
 ---
 ## Installing
@@ -31,9 +32,9 @@ Run `npm start` in project folder
 
 Idea:
 ---
-### MyTop10Movies
+### ~~MyTop10Movies~~ MyTop5Movies
 
-Allows users to share their top 10 movie lists with other users. Users can follow lists made by other people. Aimed for movie enthusiasts, who also like to share their opinion on different movies.
+Allows users to share their top ~~10~~ 5 movie lists with other users. Users can follow lists made by other people. Aimed for movie enthusiasts, who also like to share their opinion on different movies.
 
 Functionality:
 
