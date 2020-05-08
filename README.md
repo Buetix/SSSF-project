@@ -6,7 +6,7 @@ Project of the SSSF-course
 - HTTPS redirect
 - Fetrching created lists
 - Fetching created single reviews
-- Ctreating new lists
+- Creating new lists
 - Creating new reviews
 
 ---
