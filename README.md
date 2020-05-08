@@ -9,16 +9,17 @@ Project of the SSSF-course
 - Ctreating new lists
 - Creating new reviews
 
-### Planned features that did not make it:
+---
+## Installing
 
-- Modifying existing lists & reviews
-- Deleting existing lists & reviews
-- Login/logout feature
-
-Create .env file
+Create `.env` file
 
 ```
-
+DB_URL=mongodb:YOUR_MONGODB_CONNECTION Format: mongodb://myUser:userPwd@address:port
+NODE_ENV=development
+HTTP_PORT=3000
+HTTPS_PORT=8000
+PORT=3000
 ```
 
 
