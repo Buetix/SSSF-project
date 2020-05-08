@@ -12,6 +12,10 @@ Project of the SSSF-course
 ---
 ## Installing
 
+Clone repository
+
+Run `npm install` in project folder
+
 Create `.env` file
 
 ```
@@ -21,6 +25,8 @@ HTTP_PORT=3000
 HTTPS_PORT=8000
 PORT=3000
 ```
+
+Run `npm start` in project folder
 
 
 Idea:
