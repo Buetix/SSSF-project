@@ -1,6 +1,28 @@
 # SSSF-project
 Project of the SSSF-course
 
+### Working features:
+
+- HTTPS redirect
+- Fetrching created lists
+- Fetching created single reviews
+- Ctreating new lists
+- Creating new reviews
+
+### Planned features that did not make it:
+
+- Modifying existing lists & reviews
+- Deleting existing lists & reviews
+- Login/logout feature
+
+Create .env file
+
+```
+
+```
+
+
+Idea:
 ---
 ### MyTop10Movies
 
